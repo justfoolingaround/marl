@@ -4,3 +4,4 @@ httpx
 ujson
 regex
 yarl
+yaml
