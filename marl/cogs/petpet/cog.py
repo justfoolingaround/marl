@@ -33,7 +33,7 @@ class PetPetGenerator(commands.Cog):
         return final_image
 
     @commands.group(invoke_without_command=True)
-    async def petpet(self, ctx: 'commands.Context', image_source: 'Union[disnake.PartialEmoji, disnake.Member]', delay: 'Optional[int]'=20):
+    async def petpet(self, ctx: 'commands.Context', image_source: 'Union[disnake.PartialEmoji, disnake.Member]', delay: 'Optional[int]'=30):
         if delay < 20:
             return await ctx.send("Delay cannot be less than 20.", reference=ctx.message)
         
@@ -46,7 +46,7 @@ class PetPetGenerator(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(manage_emojis=True)
     @commands.bot_has_permissions(manage_emojis=True)
-    async def petpet_emote(self, ctx: 'commands.Context', image_source: 'Union[disnake.PartialEmoji, disnake.Member]', name: 'Optional[str]'=None, delay: 'Optional[int]'=20):
+    async def petpet_emote(self, ctx: 'commands.Context', image_source: 'Union[disnake.PartialEmoji, disnake.Member]', name: 'Optional[str]'=None, delay: 'Optional[int]'=30):
 
         if delay < 20:
             return await ctx.send("Delay cannot be less than 20.", reference=ctx.message)
