@@ -5,4 +5,3 @@ ujson
 regex
 yarl
 pyyaml
-git+https://github.com/justfoolingaround/animdl
