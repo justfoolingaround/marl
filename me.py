@@ -9,6 +9,7 @@ for cog in [
             'marl.cogs.client.base',
             'marl.cogs.moderation',
             'marl.cogs.antiraid',
+            'marl.cogs.petpet',
             ]:
     bot.load_extension(cog)
 
