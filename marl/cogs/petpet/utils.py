@@ -177,10 +177,26 @@ def make(source, dest, *, frames=10, resolution=(128, 128), delay=50):
 
     save_transparent_gif(images, durations=delay, save_file=dest)
 
+def has_transparency(img):
+    if img.mode == "P":
+        transparent = img.info.get("transparency", -1)
+        for _, index in img.getcolors():
+            if index == transparent:
+                return True
+    elif img.mode == "RGBA":
+        extrema = img.getextrema()
+        if extrema[3][0] < 255:
+            return True
+
+    return False
+
 def get_circular_fit(image_stream):
         
     image: 'Image.Image' = Image.open(image_stream).convert('RGBA')
-    
+
+    if has_transparency(image):
+        return image
+
     mask = Image.new('L', image.size, 0)
     draw = ImageDraw.Draw(mask) 
     draw.ellipse((0, 0) + image.size, fill=255)
