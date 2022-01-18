@@ -179,7 +179,7 @@ def make(source, dest, *, frames=10, resolution=(128, 128), delay=20):
 
 def get_circular_fit(image_stream):
         
-    image: 'Image.Image' = Image.open(image_stream)
+    image: 'Image.Image' = Image.open(image_stream).convert('RGBA')
     
     mask = Image.new('L', image.size, 0)
     draw = ImageDraw.Draw(mask) 
