@@ -1,9 +1,11 @@
+import os
+
 import httpx
 from disnake.ext import commands
-from importlib_metadata import os
 
 from .commands import AdjustibleContext
 from .helpers.configuration import get_configuration
+
 
 class Color(object):
     error = 0xff0000
