@@ -1,0 +1,4 @@
+*.env
+__pycache__/
+
+bot_configuration.yaml

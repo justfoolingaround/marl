@@ -1,0 +1,6 @@
+disnake
+disnake-jishaku
+httpx
+ujson
+regex
+yarl

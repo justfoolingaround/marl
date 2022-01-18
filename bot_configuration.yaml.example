@@ -1,0 +1,14 @@
+bot:
+  token: BOT_TOKEN
+  env: true
+  
+  prefix:
+    when_mentioned: true
+    values: 
+      - '?'
+  
+  errors:
+    enabled: true
+    private: false
+
+    command_not_found: false
