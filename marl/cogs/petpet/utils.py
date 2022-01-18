@@ -1,11 +1,10 @@
 import pathlib
-
 from collections import defaultdict
 from itertools import chain
 from random import randrange
 from typing import List, Union
 
-from PIL import Image
+from PIL import Image, ImageDraw, ImageOps
 
 
 class TransparentAnimatedGifConverter(object):
@@ -155,7 +154,11 @@ def make(source, dest, *, frames=10, resolution=(128, 128), delay=20):
     :return: None
     """
     images = []
-    base = Image.open(source).convert('RGBA').resize(resolution)
+
+    if isinstance(source, Image.Image):
+        base = source.convert('RGBA').resize(resolution)
+    else:
+        base = Image.open(source).convert('RGBA').resize(resolution)
 
     for i in range(frames):
         squeeze = i if i < frames/2 else frames - i
@@ -173,3 +176,16 @@ def make(source, dest, *, frames=10, resolution=(128, 128), delay=20):
         images.append(canvas)
 
     save_transparent_gif(images, durations=20, save_file=dest)
+
+def get_circular_fit(image_stream):
+        
+    image: 'Image.Image' = Image.open(image_stream)
+    
+    mask = Image.new('L', image.size, 0)
+    draw = ImageDraw.Draw(mask) 
+    draw.ellipse((0, 0) + image.size, fill=255)
+
+    circular = ImageOps.fit(image, mask.size, centering=(0.5, 0.5))
+    circular.putalpha(mask)
+
+    return circular

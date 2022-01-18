@@ -5,7 +5,7 @@ from typing import Optional, Union
 import disnake
 from disnake.ext import commands
 
-from .utils import make
+from .utils import make, get_circular_fit
 
 
 class PetPetGenerator(commands.Cog):
@@ -21,11 +21,12 @@ class PetPetGenerator(commands.Cog):
         if isinstance(image_source, disnake.Member):
             image_source = io.BytesIO(await image_source.avatar.read())
         
+        loop = asyncio.get_running_loop()
+        
+        circular_image = await loop.run_in_executor(None, get_circular_fit, image_source)
         final_image = io.BytesIO()
         
-        loop = asyncio.get_running_loop()
-
-        await loop.run_in_executor(None, make, image_source, final_image)
+        await loop.run_in_executor(None, make, circular_image, final_image)
         
         final_image.seek(0)
         
