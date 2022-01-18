@@ -145,7 +145,7 @@ def save_transparent_gif(images, durations: Union[int, List[int]], save_file):
     root_frame.save(save_file, **save_args)
 
 
-def make(source, dest, *, frames=10, resolution=(128, 128), delay=20):
+def make(source, dest, *, frames=10, resolution=(128, 128), delay=50):
     """
     :param source: A filename (string), pathlib.Path object or a file object. (This parameter corresponds
                    and is passed to the PIL.Image.open() method.)
@@ -175,7 +175,7 @@ def make(source, dest, *, frames=10, resolution=(128, 128), delay=20):
         canvas.paste(pet, mask=pet)
         images.append(canvas)
 
-    save_transparent_gif(images, durations=20, save_file=dest)
+    save_transparent_gif(images, durations=delay, save_file=dest)
 
 def get_circular_fit(image_stream):
         
