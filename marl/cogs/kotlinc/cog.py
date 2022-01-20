@@ -6,7 +6,7 @@ from jishaku.codeblocks import codeblock_converter
 from jishaku.paginators import (PaginatorEmbedInterface, PaginatorInterface,
                                 WrappedPaginator)
 
-IN_PACKAGE_REGEX = regex.compile(r"fun\s+main\(.*?\)\s*{.*?}")
+IN_PACKAGE_REGEX = regex.compile(r"fun\s+main\(.*?\)\s*{.*?}", regex.S)
 
 class KtCog(commands.Cog):
     
