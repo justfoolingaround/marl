@@ -3,6 +3,7 @@ import httpx
 import regex
 from disnake.ext import commands
 from jishaku.codeblocks import codeblock_converter
+from jishaku.exception_handling import ReactionProcedureTimer
 from jishaku.paginators import (PaginatorEmbedInterface, PaginatorInterface,
                                 WrappedPaginator)
 
@@ -124,21 +125,21 @@ class KtCog(commands.Cog):
         else:
             cls = PaginatorInterface
 
-        interface = cls(**kwargs) 
-        await interface.add_line('\n'.join("[run] {}".format(_) for _ in kotlin_code.splitlines()))
+        async with ReactionProcedureTimer(ctx.message, loop=ctx.bot.loop):
+            interface = cls(**kwargs) 
+            await interface.add_line('\n'.join("[run] {}".format(_) for _ in kotlin_code.splitlines()))
 
-        await interface.send_to(ctx)
+            await interface.send_to(ctx)
 
-        _, stdout, errors, exceptions = await self.run(kotlin_code)
+            _, stdout, errors, exceptions = await self.run(kotlin_code)
 
-        await interface.add_line(empty=True)
-        await interface.add_line(empty=True)
-        await interface.add_line("\n".join("[stdout] {}".format(_) for _ in stdout.splitlines()))
-        await interface.add_line(empty=True)
-        await interface.add_line(errors.strip())
-        
-        if exceptions:
-            await interface.add_line("[exception] {}".format(exceptions))
+            await interface.add_line(empty=True)
+            await interface.add_line("\n".join("[stdout] {}".format(_) for _ in stdout.splitlines()))
+            await interface.add_line(empty=True)
+            await interface.add_line(errors.strip())
+            
+            if exceptions:
+                await interface.add_line("[exception] {}".format(exceptions))
 
         self.event_mapping.update({ctx.message.id: interface})
 
