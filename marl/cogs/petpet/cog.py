@@ -5,8 +5,7 @@ from typing import Optional, Union
 import disnake
 from disnake.ext import commands
 
-from .utils import make, get_circular_fit
-
+from .utils import make, get_circular_fit, get_delay
 
 class PetPetGenerator(commands.Cog):
 
@@ -33,12 +32,10 @@ class PetPetGenerator(commands.Cog):
         return final_image
 
     @commands.group(invoke_without_command=True)
-    async def petpet(self, ctx: 'commands.Context', image_source: 'Union[disnake.PartialEmoji, disnake.Member]', delay: 'Optional[int]'=30):
-        if delay < 20:
-            return await ctx.send("Delay cannot be less than 20.", reference=ctx.message)
+    async def petpet(self, ctx: 'commands.Context', image_source: 'Optional[Union[disnake.PartialEmoji, disnake.Member]]', delay: 'Optional[get_delay]'=30):
         
-        if delay > 70:
-            return await ctx.send("Delay cannot be greater than 70.", reference=ctx.message)
+        if image_source is None:
+            image_source = ctx.author
         
         return await ctx.send(file=disnake.File(await self.get_image(image_source, delay), "petpet.gif"), reference=ctx.message)
     
@@ -46,14 +43,11 @@ class PetPetGenerator(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(manage_emojis=True)
     @commands.bot_has_permissions(manage_emojis=True)
-    async def petpet_emote(self, ctx: 'commands.Context', image_source: 'Union[disnake.PartialEmoji, disnake.Member]', name: 'Optional[str]'=None, delay: 'Optional[int]'=30):
+    async def petpet_emote(self, ctx: 'commands.Context', image_source: 'Optional[Union[disnake.PartialEmoji, disnake.Member]]', name: 'Optional[str]'=None, delay: 'Optional[get_delay]'=30):
 
-        if delay < 20:
-            return await ctx.send("Delay cannot be less than 20.", reference=ctx.message)
-        
-        if delay > 70:
-            return await ctx.send("Delay cannot be greater than 70.", reference=ctx.message)
-                
+        if image_source is None:
+            image_source = ctx.author
+
         image = await self.get_image(image_source, delay)
 
         if name is None:

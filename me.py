@@ -10,6 +10,7 @@ for cog in [
             'marl.cogs.moderation',
             'marl.cogs.antiraid',
             'marl.cogs.petpet',
+            'marl.cogs.kotlinc',
             ]:
     bot.load_extension(cog)
 

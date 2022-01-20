@@ -6,6 +6,8 @@ from typing import List, Union
 
 from PIL import Image, ImageDraw, ImageOps
 
+DEFUALT_DELAY = 30
+MINIMUM_DELAY, MAXIMUM_DELAY = (20, 70)
 
 class TransparentAnimatedGifConverter(object):
     _PALETTE_SLOTSET = set(range(256))
@@ -145,7 +147,7 @@ def save_transparent_gif(images, durations: Union[int, List[int]], save_file):
     root_frame.save(save_file, **save_args)
 
 
-def make(source, dest, *, frames=10, resolution=(128, 128), delay=50):
+def make(source, dest, *, frames=10, resolution=(128, 128), delay=DEFUALT_DELAY):
     """
     :param source: A filename (string), pathlib.Path object or a file object. (This parameter corresponds
                    and is passed to the PIL.Image.open() method.)
@@ -205,3 +207,18 @@ def get_circular_fit(image_stream):
     circular.putalpha(mask)
 
     return circular
+
+def get_delay(value: str) -> 'int':
+
+    if not value.isdigit():
+        return DEFUALT_DELAY
+
+    _ = int(value)
+
+    if _ < MINIMUM_DELAY:
+        raise ValueError("{}, delay cannot be less than 20.".format(_))
+
+    if _ > MAXIMUM_DELAY:
+        raise ValueError("{}, delay cannot be greater than 70.".format(_))
+
+    return _
