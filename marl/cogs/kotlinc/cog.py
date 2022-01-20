@@ -79,7 +79,7 @@ class KtCog(commands.Cog):
 
         content = api_response.json()
 
-        stdout = content.get('text', '')[11:-13]
+        stdout = content.get('text', '')[11:-12]
         errors = ("\n".join("[{0} {2[start][line]}:{2[start][ch]}-{2[end][line]}:{2[end][ch]}] {1}".format(severity, message, interval) for interval, message, severity in self.merge_errors(content.get('errors', {}).get('OutFile.kt', []))))
         
         return (
@@ -131,10 +131,9 @@ class KtCog(commands.Cog):
 
         await interface.send_to(ctx)
 
-        api_response, stdout, errors, exceptions = await self.run(kotlin_code)
+        _, stdout, errors, exceptions = await self.run(kotlin_code)
 
         await interface.add_line(empty=True)
-        await interface.add_line("[bot] API {}".format(api_response))
         await interface.add_line(empty=True)
         await interface.add_line("\n".join("[stdout] {}".format(_) for _ in stdout.splitlines()))
         await interface.add_line(empty=True)
