@@ -92,12 +92,12 @@ class KtCog(commands.Cog):
     @commands.group('kt', aliases=['kotlin'], invoke_without_command=True)
     async def kotlin_execution(self, ctx: 'commands.Context', *, code: codeblock_converter):
 
-        kotlin_code = code.content
+        kotlin_code = code.content.strip()
 
         if not IN_PACKAGE_REGEX.search(kotlin_code):
             kotlin_code = "fun main() {{{}}}".format(kotlin_code)
 
-        paginator = WrappedPaginator(prefix="```kt", suffix="```", max_size=2000)
+        paginator = WrappedPaginator(prefix="```kt", suffix="``` \nKotlin v{}".format(self.KOTLIN_VERSION), max_size=2000)
 
         embed_permissions = ctx.channel.permissions_for(ctx.guild.me).is_superset(disnake.Permissions(1 << 14))
         
@@ -105,8 +105,6 @@ class KtCog(commands.Cog):
             'owner': ctx.author,
             'bot': ctx.bot,
             'paginator': paginator,
-            'suffix': "``` \nKotlin v{}".format(self.KOTLIN_VERSION)
-
         }
 
         if embed_permissions:
