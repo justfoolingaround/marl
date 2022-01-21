@@ -26,10 +26,6 @@ jobs:
           pip install --upgrade pip
           pip install -r "requirements.txt"
       
-      - name: Setup MarlDB
-        run: |
-          git clone https://github.com/justfoolingaround/marl-db "marl-db"
-
       - name: Run Bot code
         run: |
           python "me.py"
@@ -41,9 +37,8 @@ jobs:
         id: "changes-to-db"
         with:
           run: |
-            cd "marl-db"
             git config user.name "MarlServer"
             git config user.email "null"
-            git add "marl-db.json"
+            git add "marl-db/marl-db.json"
             git commit -m "Chore: DB update on restart."
-            git push --force
+            git push
