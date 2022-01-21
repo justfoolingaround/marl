@@ -98,5 +98,14 @@ class MarlBot(commands.Bot):
         return await self.invoke(await self.get_context(message, cls=AdjustibleContext))
 
 
-signal.signal(signal.SIGTERM, lambda *args, **kwargs: MarlBot.database.save() or exit())
-signal.signal(signal.SIGINT, lambda *args, **kwargs: MarlBot.database.save() or exit())
+def upload_to_gh():
+    import os
+
+    os.system("cd marl-db")
+    os.system("git add .")
+    os.system('git commit -m "Chore: DB update."')
+    os.system("git push")
+    
+
+signal.signal(signal.SIGTERM, lambda *args, **kwargs: MarlBot.database.save() or upload_to_gh() or exit())
+signal.signal(signal.SIGINT, lambda *args, **kwargs: MarlBot.database.save() or upload_to_gh() or exit())

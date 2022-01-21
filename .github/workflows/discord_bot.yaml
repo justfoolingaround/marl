@@ -36,14 +36,3 @@ jobs:
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           STATUS_WEBHOOK: ${{ secrets.STATUS_WEBHOOK }}
-
-      - uses: webiny/action-post-run@2.0.1
-        id: "changes-to-db"
-        with:
-          run: |
-            cd "marl-db"
-            git config user.name "MarlServer"
-            git config user.email "null"
-            git add "marl-db.json"
-            git commit -m "Chore: DB update on restart."
-            git push --force
