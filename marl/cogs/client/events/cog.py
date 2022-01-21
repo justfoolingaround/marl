@@ -12,6 +12,9 @@ class BotEvents(commands.Cog):
     
     @commands.Cog.listener()
     async def on_command_error(self, ctx: 'commands.Context', error):
+        
+        if ctx.bot.blacklisted(ctx):
+            return
 
         if not isinstance(error, commands.CommandError) or not self.error_configuration.get('enabled'):
             return

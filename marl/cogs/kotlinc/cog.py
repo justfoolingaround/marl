@@ -100,8 +100,11 @@ class KtCog(commands.Cog):
 
         paginator = WrappedPaginator(prefix="```kt", suffix="``` \nKotlin v{}".format(self.KOTLIN_VERSION), max_size=2000)
 
-        embed_permissions = ctx.channel.permissions_for(ctx.guild.me).is_superset(disnake.Permissions(1 << 14))
-        
+        if ctx.guild:
+            embed_permissions = ctx.channel.permissions_for(ctx.guild.me).is_superset(disnake.Permissions(1 << 14))
+        else:
+            embed_permissions = True
+
         kwargs = {
             'owner': ctx.author,
             'bot': ctx.bot,
@@ -135,8 +138,10 @@ class KtCog(commands.Cog):
 
             await interface.add_line(empty=True)
             await interface.add_line("\n".join("[stdout] {}".format(_) for _ in stdout.splitlines()))
-            await interface.add_line(empty=True)
-            await interface.add_line(errors.strip())
+            
+            if errors:
+                await interface.add_line(empty=True)
+                await interface.add_line(errors.strip())
             
             if exceptions:
                 await interface.add_line("[exception] {}".format(exceptions))

@@ -12,3 +12,7 @@ bot:
     private: false
 
     command_not_found: false
+
+  status:
+    webhook_url: "STATUS_WEBHOOK"
+    env: true 
