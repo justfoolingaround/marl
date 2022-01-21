@@ -28,7 +28,7 @@ jobs:
       
       - name: Setup MarlDB
         run: |
-          git clone  "marl-db"
+          git clone https://github.com/justfoolingaround/marl-db "marl-db"
 
       - name: Run Bot code
         run: |
